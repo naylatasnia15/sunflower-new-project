@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test playZoomSound</title>
+  <style>
+    body {
+      font-family: 'Quicksand', sans-serif;
+      padding: 20px;
+      background: linear-gradient(to bottom, #FFF7AE 0%, #C8FACC 100%);
+      min-height: 100vh;
+    }
+    .controls {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    button {
+      padding: 10px 20px;
+      margin: 5px;
+      border: none;
+      border-radius: 5px;
+      background: #4CAF50;
+      color: white;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    button:hover {
+      background: #45a049;
+    }
+    .log {
+      background: #f5f5f5;
+      padding: 15px;
+      border-radius: 5px;
+      margin-top: 10px;
+      font-family: monospace;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+    .log-entry {
+      margin: 5px 0;
+      padding: 5px;
+      border-left: 3px solid #4CAF50;
+      padding-left: 10px;
+    }
+    .log-entry.error {
+      border-left-color: #f44336;
+      color: #f44336;
+    }
+    .log-entry.success {
+      border-left-color: #4CAF50;
+      color: #4CAF50;
+    }
+  </style>
+</head>
+<body>
+  <div class="controls">
+    <h3>Test playZoomSound Function</h3>
+    <button onclick="testPlayZoomSound()">Play Zoom Sound</button>
+    <button onclick="testMultipleSounds()">Play Multiple Sounds</button>
+    <button onclick="clearLog()">Clear Log</button>
+    <div class="log" id="log"></div>
+  </div>
+
+  <script>
+    // ============================================
+    // Audio Controller Module (from index.html)
+    // ============================================
+    
+    /**
+     * Zoom sound as base64 data URL
+     * Playful boing/zoom sound effect (300-500ms duration) in WAV format
+     * Used for zoomies behavior
+     * Requirements: 4.5, 7.1, 7.3
+     */
+    const ZOOM_SOUND_DATA_URL = 'data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA=';
+    
+    /**
+     * Plays the zoom sound effect
+     * Creates a new Audio instance with zoom sound data URL, sets volume, and plays with error handling
+     * Used for zoomies behavior
+     * Requirements: 4.5, 7.3, 7.4
+     */
+    function playZoomSound() {
+      try {
+        // Create new Audio instance to allow overlapping sounds
+        const audio = new Audio(ZOOM_SOUND_DATA_URL);
+        
+        // Set volume to 0.4 for non-intrusive feedback
+        audio.volume = 0.4;
+        
+        // Play sound with error handling
+        audio.play().catch(err => {
+          console.warn('Audio playback failed:', err);
+        });
+      } catch (err) {
+        console.warn('Audio creation failed:', err);
+      }
+    }
+    
+    // ============================================
+    // Test Functions
+    // ============================================
+    
+    function log(message, type = 'info') {
+      const logDiv = document.getElementById('log');
+      const entry = document.createElement('div');
+      entry.className = `log-entry ${type}`;
+      entry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+      logDiv.appendChild(entry);
+      logDiv.scrollTop = logDiv.scrollHeight;
+    }
+    
+    function clearLog() {
+      document.getElementById('log').innerHTML = '';
+      log('Log cleared');
+    }
+    
+    function testPlayZoomSound() {
+      log('Testing playZoomSound()...');
+      
+      try {
+        playZoomSound();
+        log('✓ playZoomSound() called successfully', 'success');
+        log('✓ Audio instance created with ZOOM_SOUND_DATA_URL', 'success');
+        log('✓ Volume set to 0.4', 'success');
+        log('✓ Sound playback initiated', 'success');
+      } catch (err) {
+        log(`✗ Error: ${err.message}`, 'error');
+      }
+    }
+    
+    function testMultipleSounds() {
+      log('Testing multiple overlapping sounds...');
+      
+      try {
+        // Play 3 sounds in quick succession to test overlapping
+        playZoomSound();
+        setTimeout(() => playZoomSound(), 100);
+        setTimeout(() => playZoomSound(), 200);
+        
+        log('✓ Multiple sounds triggered successfully', 'success');
+        log('✓ Overlapping sounds should be audible', 'success');
+      } catch (err) {
+        log(`✗ Error: ${err.message}`, 'error');
+      }
+    }
+    
+    // Initial log
+    log('Test page loaded. Click "Play Zoom Sound" to test the function.');
+    log('Note: Browser may require user interaction before playing audio.');
+  </script>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test triggerHappyAnimation</title>
+  <style>
+    @keyframes wiggle {
+      0% { transform: rotate(0deg); }
+      25% { transform: rotate(15deg); }
+      75% { transform: rotate(-15deg); }
+      100% { transform: rotate(0deg); }
+    }
+    
+    .wiggle {
+      animation: wiggle 0.5s ease-in-out;
+    }
+    
+    #test-element {
+      width: 100px;
+      height: 100px;
+      background: #FFD84D;
+      margin: 50px;
+    }
+    
+    #result {
+      margin: 20px;
+      padding: 10px;
+      font-family: monospace;
+    }
+  </style>
+</head>
+<body>
+  <h1>Test triggerHappyAnimation Function</h1>
+  <div id="test-element"></div>
+  <button id="test-btn">Trigger Animation</button>
+  <div id="result"></div>
+
+  <script>
+    // Copy the function from index.html
+    function triggerHappyAnimation(element) {
+      if (!element) return;
+      
+      // Add wiggle animation class
+      element.classList.add('wiggle');
+      
+      // Remove class after 500ms (animation duration)
+      setTimeout(() => {
+        element.classList.remove('wiggle');
+      }, 500);
+    }
+    
+    // Test the function
+    const testElement = document.getElementById('test-element');
+    const resultDiv = document.getElementById('result');
+    const testBtn = document.getElementById('test-btn');
+    
+    testBtn.addEventListener('click', () => {
+      resultDiv.innerHTML = '<strong>Test Started</strong><br>';
+      
+      // Check initial state
+      const hasClassBefore = testElement.classList.contains('wiggle');
+      resultDiv.innerHTML += `1. Has 'wiggle' class before: ${hasClassBefore} (expected: false)<br>`;
+      
+      // Trigger animation
+      triggerHappyAnimation(testElement);
+      
+      // Check immediately after
+      const hasClassDuring = testElement.classList.contains('wiggle');
+      resultDiv.innerHTML += `2. Has 'wiggle' class immediately after: ${hasClassDuring} (expected: true)<br>`;
+      
+      // Check after 600ms (after animation should complete)
+      setTimeout(() => {
+        const hasClassAfter = testElement.classList.contains('wiggle');
+        resultDiv.innerHTML += `3. Has 'wiggle' class after 600ms: ${hasClassAfter} (expected: false)<br>`;
+        
+        // Determine test result
+        if (!hasClassBefore && hasClassDuring && !hasClassAfter) {
+          resultDiv.innerHTML += '<br><strong style="color: green;">✓ TEST PASSED</strong>';
+        } else {
+          resultDiv.innerHTML += '<br><strong style="color: red;">✗ TEST FAILED</strong>';
+        }
+      }, 600);
+    });
+  </script>
+</body>
+</html>

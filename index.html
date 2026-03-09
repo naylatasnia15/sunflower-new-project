@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sunflower Care App</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Google Fonts - Quicksand -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    /* Apply font globally */
+    body {
+      font-family: 'Quicksand', sans-serif;
+    }
+    
+    /* Background gradient */
+    .gradient-bg {
+      background: linear-gradient(to bottom, #FFF7AE 0%, #C8FACC 100%);
+    }
+    
+    /* Glassmorphism utility classes */
+    .glass {
+      background: rgba(255, 255, 255, 0.3);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+    }
+    
+    .glass-button {
+      background: rgba(255, 255, 255, 0.3);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      transition: all 0.3s ease;
+    }
+    
+    .glass-button:hover {
+      background: rgba(255, 255, 255, 0.5);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Animation Keyframes */
+    
+    /* Wiggle animation for happy reactions */
+    @keyframes wiggle {
+      0% {
+        transform: rotate(0deg);
+      }
+      25% {
+        transform: rotate(15deg);
+      }
+      75% {
+        transform: rotate(-15deg);
+      }
+      100% {
+        transform: rotate(0deg);
+      }
+    }
+    
+    .wiggle {
+      animation: wiggle 0.5s ease-in-out;
+    }
+    
+    /* Fast-shake animation for zoomies behavior */
+    @keyframes fast-shake {
+      0% {
+        transform: rotate(0deg);
+      }
+      25% {
+        transform: rotate(20deg);
+      }
+      75% {
+        transform: rotate(-20deg);
+      }
+      100% {
+        transform: rotate(0deg);
+      }
+    }
+    
+    .fast-shake {
+      animation: fast-shake 0.2s ease-in-out 3;
+    }
+    
+    /* Float animation for continuous gentle movement */
+    @keyframes float {
+      0% {
+        transform: translateY(0px);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+      100% {
+        transform: translateY(0px);
+      }
+    }
+    
+    .float {
+      animation: float 3s ease-in-out infinite;
+    }
+    
+    /* Splash animation for water action - scale pulse effect */
+    @keyframes splash {
+      0% {
+        transform: scale(1.0);
+      }
+      50% {
+        transform: scale(1.1);
+      }
+      100% {
+        transform: scale(1.0);
+      }
+    }
+    
+    .splash {
+      animation: splash 0.4s ease-in-out;
+    }
+    
+    /* Grow animation for water action - scale increase effect */
+    @keyframes grow {
+      0% {
+        transform: scale(1.0);
+      }
+      100% {
+        transform: scale(1.05);
+      }
+    }
+    
+    .grow {
+      animation: grow 0.3s ease-in-out forwards;
+    }
+    
+    /* Fade-out animation for speed line emojis during zoomies */
+    @keyframes fade-out {
+      0% {
+        opacity: 1.0;
+      }
+      100% {
+        opacity: 0;
+      }
+    }
+    
+    .fade-out {
+      animation: fade-out 1s ease-in-out forwards;
+    }
+  </style>
+</head>
+<body class="gradient-bg min-h-screen flex items-center justify-center overflow-hidden">
+  
+  <!-- Main container -->
+  <div class="relative w-full h-screen flex flex-col items-center justify-center">
+    
+    <!-- Care Counter Display -->
+    <div id="care-counter" class="glass absolute top-8 left-1/2 transform -translate-x-1/2 px-6 py-3 rounded-full shadow-lg text-lg font-semibold text-gray-800">
+      Total Care: 0
+    </div>
+    
+    <!-- SVG Sunflower -->
+    <svg id="sunflower" width="300" height="400" viewBox="0 0 300 400" class="cursor-pointer transition-transform duration-300 hover:scale-105 float">
+      <!-- Pot -->
+      <path d="M 100 320 L 110 380 L 190 380 L 200 320 Z" fill="#C97A40" stroke="#A0632F" stroke-width="2"/>
+      <ellipse cx="150" cy="320" rx="50" ry="15" fill="#C97A40" stroke="#A0632F" stroke-width="2"/>
+      
+      <!-- Stem -->
+      <rect x="140" y="200" width="20" height="120" fill="#3FA34D" rx="5"/>
+      
+      <!-- Leaves -->
+      <!-- Left leaf -->
+      <ellipse cx="120" cy="260" rx="35" ry="20" fill="#56C271" stroke="#3FA34D" stroke-width="2" transform="rotate(-30 120 260)"/>
+      <!-- Right leaf -->
+      <ellipse cx="180" cy="240" rx="35" ry="20" fill="#56C271" stroke="#3FA34D" stroke-width="2" transform="rotate(30 180 240)"/>
+      
+      <!-- Sunflower center -->
+      <circle cx="150" cy="120" r="50" fill="#7A4A21"/>
+      
+      <!-- Center texture (seeds pattern) -->
+      <circle cx="140" cy="110" r="3" fill="#5A3419" opacity="0.6"/>
+      <circle cx="155" cy="108" r="3" fill="#5A3419" opacity="0.6"/>
+      <circle cx="145" cy="125" r="3" fill="#5A3419" opacity="0.6"/>
+      <circle cx="160" cy="120" r="3" fill="#5A3419" opacity="0.6"/>
+      <circle cx="150" cy="135" r="3" fill="#5A3419" opacity="0.6"/>
+      <circle cx="135" cy="130" r="3" fill="#5A3419" opacity="0.6"/>
+      <circle cx="165" cy="130" r="3" fill="#5A3419" opacity="0.6"/>
+      
+      <!-- Petals (arranged in a circle around the center) -->
+      <!-- Top petal -->
+      <ellipse cx="150" cy="60" rx="20" ry="35" fill="#FFD84D" stroke="#F5C842" stroke-width="2"/>
+      <!-- Top-right petal -->
+      <ellipse cx="195" cy="80" rx="20" ry="35" fill="#FFD84D" stroke="#F5C842" stroke-width="2" transform="rotate(45 195 80)"/>
+      <!-- Right petal -->
+      <ellipse cx="210" cy="120" rx="20" ry="35" fill="#FFD84D" stroke="#F5C842" stroke-width="2" transform="rotate(90 210 120)"/>
+      <!-- Bottom-right petal -->
+      <ellipse cx="195" cy="160" rx="20" ry="35" fill="#FFD84D" stroke="#F5C842" stroke-width="2" transform="rotate(135 195 160)"/>
+      <!-- Bottom petal -->
+      <ellipse cx="150" cy="180" rx="20" ry="35" fill="#FFD84D" stroke="#F5C842" stroke-width="2"/>
+      <!-- Bottom-left petal -->
+      <ellipse cx="105" cy="160" rx="20" ry="35" fill="#FFD84D" stroke="#F5C842" stroke-width="2" transform="rotate(-135 105 160)"/>
+      <!-- Left petal -->
+      <ellipse cx="90" cy="120" rx="20" ry="35" fill="#FFD84D" stroke="#F5C842" stroke-width="2" transform="rotate(-90 90 120)"/>
+      <!-- Top-left petal -->
+      <ellipse cx="105" cy="80" rx="20" ry="35" fill="#FFD84D" stroke="#F5C842" stroke-width="2" transform="rotate(-45 105 80)"/>
+    </svg>
+    
+  </div>
+
+  <script>
+    // ============================================
+    // State Management Module
+    // ============================================
+    
+    /**
+     * Application state object
+     * Tracks care interactions and animation status
+     */
+    const state = {
+      careCount: 0,        // Total number of interactions (clicks + waters)
+      isAnimating: false   // Prevents concurrent animations
+    };
+    
+    // ============================================
+    // UI Renderer Module
+    // ============================================
+    
+    /**
+     * Updates the care counter display to reflect current state
+     * Synchronizes DOM with state.careCount value
+     */
+    function updateCareCounterDisplay() {
+      const counterElement = document.getElementById('care-counter');
+      if (counterElement) {
+        counterElement.textContent = `Total Care: ${state.careCount}`;
+      }
+    }
+    
+    // ============================================
+    // State Management Functions
+    // ============================================
+    
+    /**
+     * Increments the care counter by 1 and updates the display
+     * Called whenever user interacts with sunflower or water button
+     * Requirements: 3.3, 5.5, 6.2
+     */
+    function incrementCareCount() {
+      state.careCount++;
+      updateCareCounterDisplay();
+    }
+    
+    /**
+     * Updates the animation lock flag
+     * Prevents concurrent animations by setting isAnimating state
+     * @param {boolean} value - The new value for isAnimating flag
+     * Requirements: 3.4 (implicit)
+     */
+    function setAnimating(value) {
+      state.isAnimating = value;
+    }
+    
+    // ============================================
+    // Animation Controller Module
+    // ============================================
+    
+    /**
+     * Triggers the happy wiggle animation on the sunflower
+     * Adds wiggle class and removes it after animation completes
+     * @param {HTMLElement} element - The element to animate (sunflower)
+     * Requirements: 3.1
+     */
+    function triggerHappyAnimation(element) {
+      if (!element) return;
+      
+      // Add wiggle animation class
+      element.classList.add('wiggle');
+      
+      // Remove class after 500ms (animation duration)
+      setTimeout(() => {
+        element.classList.remove('wiggle');
+      }, 500);
+    }
+    
+    /**
+     * Triggers the water animation on the sunflower
+     * Adds splash and grow animation classes and removes them after animations complete
+     * @param {HTMLElement} element - The element to animate (sunflower)
+     * Requirements: 5.2, 5.3
+     */
+    function triggerWaterAnimation(element) {
+      if (!element) return;
+      
+      // Add splash and grow animation classes
+      element.classList.add('splash', 'grow');
+      
+      // Remove classes after animations complete
+      // Splash duration is 0.4s (400ms), grow duration is 0.3s (300ms)
+      // Remove after the longer animation completes (splash at 400ms)
+      setTimeout(() => {
+        element.classList.remove('splash', 'grow');
+      }, 400);
+    }
+    
+    /**
+     * Triggers the zoomies animation on the sunflower
+     * Adds fast-shake class, moves element to random position, spawns speed line emojis
+     * @param {HTMLElement} element - The element to animate (sunflower)
+     * Requirements: 4.2, 4.3, 4.4
+     */
+    function triggerZoomiesAnimation(element) {
+      if (!element) return;
+      
+      // Add fast-shake animation class
+      element.classList.add('fast-shake');
+      
+      // Get random position within viewport bounds (20% to 80% of viewport)
+      const viewportWidth = window.innerWidth || 800;
+      const viewportHeight = window.innerHeight || 600;
+      const randomX = viewportWidth * (0.2 + Math.random() * 0.6);
+      const randomY = viewportHeight * (0.2 + Math.random() * 0.6);
+      
+      // Move element to random position
+      element.style.position = 'absolute';
+      element.style.left = `${randomX}px`;
+      element.style.top = `${randomY}px`;
+      element.style.transform = 'translate(-50%, -50%)';
+      
+      // Spawn speed line emojis near the sunflower
+      spawnSpeedLineEmoji(randomX, randomY);
+      
+      // Remove fast-shake class after animation completes
+      // Fast-shake duration is 0.2s * 3 iterations = 0.6s (600ms)
+      setTimeout(() => {
+        element.classList.remove('fast-shake');
+      }, 600);
+    }
+    
+    /**
+     * Spawns a speed line emoji (💨) at the given position
+     * Emoji fades out and is removed from DOM after 1 second
+     * @param {number} x - X coordinate for emoji position
+     * @param {number} y - Y coordinate for emoji position
+     * Requirements: 4.4, 4.6
+     */
+    function spawnSpeedLineEmoji(x, y) {
+      // Create emoji element
+      const emoji = document.createElement('div');
+      emoji.textContent = '💨';
+      emoji.style.position = 'absolute';
+      emoji.style.left = `${x - 30}px`;  // Offset to appear near sunflower
+      emoji.style.top = `${y}px`;
+      emoji.style.fontSize = '2rem';
+      emoji.style.pointerEvents = 'none';  // Don't interfere with clicks
+      emoji.classList.add('fade-out');
+      
+      // Add to DOM
+      document.body.appendChild(emoji);
+      
+      // Remove from DOM after fade-out animation completes (1 second)
+      setTimeout(() => {
+        try {
+          document.body.removeChild(emoji);
+        } catch (err) {
+          console.warn('Failed to remove emoji element:', err);
+        }
+      }, 1000);
+    }
+    
+    // ============================================
+    // Audio Controller Module
+    // ============================================
+    
+    /**
+     * Pop sound as base64 data URL
+     * Soft pop sound effect (200-300ms duration) in WAV format
+     * Used for click reactions and water actions
+     * Requirements: 3.2, 5.4, 7.1, 7.2
+     */
+    const POP_SOUND_DATA_URL = 'data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA=';
+    
+    /**
+     * Zoom sound as base64 data URL
+     * Playful boing/zoom sound effect (300-500ms duration) in WAV format
+     * Used for zoomies behavior
+     * Requirements: 4.5, 7.1, 7.3
+     */
+    const ZOOM_SOUND_DATA_URL = 'data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA=';
+    
+    /**
+     * Plays the pop sound effect
+     * Creates a new Audio instance with pop sound data URL, sets volume, and plays with error handling
+     * Used for click reactions and water button actions
+     * Requirements: 3.2, 5.4, 7.2, 7.4
+     */
+    function playPopSound() {
+      try {
+        // Create new Audio instance to allow overlapping sounds
+        const audio = new Audio(POP_SOUND_DATA_URL);
+        
+        // Set volume to 0.4 for non-intrusive feedback
+        audio.volume = 0.4;
+        
+        // Play sound with error handling
+        audio.play().catch(err => {
+          console.warn('Audio playback failed:', err);
+        });
+      } catch (err) {
+        console.warn('Audio creation failed:', err);
+      }
+    }
+    
+    /**
+     * Plays the zoom sound effect
+     * Creates a new Audio instance with zoom sound data URL, sets volume, and plays with error handling
+     * Used for zoomies behavior
+     * Requirements: 4.5, 7.3, 7.4
+     */
+    function playZoomSound() {
+      try {
+        // Create new Audio instance to allow overlapping sounds
+        const audio = new Audio(ZOOM_SOUND_DATA_URL);
+        
+        // Set volume to 0.4 for non-intrusive feedback
+        audio.volume = 0.4;
+        
+        // Play sound with error handling
+        audio.play().catch(err => {
+          console.warn('Audio playback failed:', err);
+        });
+      } catch (err) {
+        console.warn('Audio creation failed:', err);
+      }
+    }
+  </script>
+
+</body>
+</html>
